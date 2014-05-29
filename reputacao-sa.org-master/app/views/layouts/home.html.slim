@@ -1,0 +1,41 @@
+doctype html
+erb:
+  <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+  <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+  <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+  <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+head
+  meta charset='utf-8'
+  meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'
+  title
+    | Reputação S/A · Seu app para consultar a reputação de empresas e serviços.
+  meta name='description' content='Reputação S/A é uma ferramenta que facilita o acesso de informações referentes à reclamações cadastradas contra empresas no Procon.'
+  meta name='viewport' content='width=device-width, initial-scale=1.0'
+  = stylesheet_link_tag 'home', :media => 'all'
+  = csrf_meta_tags
+  link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'
+  link rel="shortcut icon" href="/favicon.ico"
+  /! Facebook OpenGraph
+  meta property="fb:app_id" content="470964562969435"
+  meta property="og:type" content="website"
+  meta property="og:site_name" content="Reputação S/A"
+  meta property="og:url" content="http://reputacao-sa.org"
+  meta property="og:image" content="http://reputacao-sa.org/og-image.png"
+  meta property="og:title" content="Reputação S/A · Seu app para consultar a reputação de empresas e serviços."
+  meta property="og:description" content="Consumidores brasileiros agora têm acesso à uma ferramenta que descomplica a visualização de reclamações contra fornecedores."
+body
+  #root
+    = yield
+  script src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
+  javascript:
+    window.jQuery || document.write('<script src="/assets/jquery-1.9.1.min.js"><\/script>')
+  = javascript_include_tag 'home'
+  = yield :moar_scripts
+  - if Rails.env === 'production'
+    javascript:
+      var _gaq=[['_setAccount','UA-39203867-1'],['_trackPageview']];
+      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+      s.parentNode.insertBefore(g,s)}(document,'script'));
+erb:
+  </html>

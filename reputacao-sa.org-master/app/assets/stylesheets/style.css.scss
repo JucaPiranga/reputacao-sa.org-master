@@ -1,0 +1,619 @@
+@import 'fontface';
+@import 'helpers';
+@import 'typography';
+@import 'colours';
+@import 'statelybrazil';
+
+body {
+  color: $black;
+  background-color: $white;
+  padding-top: 3em;
+}
+
+a {
+  color: $belize-hole;
+  text-decoration: none;
+  &:hover {
+    color: lighten($belize-hole, 10%);
+  }
+}
+
+.panel {
+  @include box-sizing;
+  @include transition(all .25s ease-in-out);
+  @include transform(translateY(-600px));
+  position: fixed;
+  width: 100%;
+  opacity: 0;
+  padding: 26px 10px 10px 10px;
+  background-color: $white;
+  border-bottom: 2px solid $black;
+  &.open {
+    @include transform(translateY(0px));
+    opacity: 1;
+  }
+  input {
+    @include box-sizing;
+    font-size: 1.5em;
+    line-height: 1.5em;
+    padding: .25em .5em;
+    width: 100%;
+    border: 3px solid darken($turquoise, 10%);
+    border-radius: 6px;
+    background: $clouds;
+    &:focus {
+      box-shadow: none;
+      outline: none;
+      color: $turquoise;
+      background-color: white;
+    }
+  }
+}
+
+.big-number {
+  font-size: 2em;
+}
+
+header {
+  @include box-sizing;
+  position: fixed;
+  background-color: $wet-asphalt;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 11;
+  box-shadow: darken($black, 5%) 0 0 2px;
+  .wrapper {
+    margin: 0 auto;
+  }
+  h1 {
+    @include box-sizing;
+    float: left;
+    width: 50%;
+    margin: .5em 0;
+    padding: 0;
+    font-size: 1.25em;
+    a {
+      display: block;
+      width: 160px;
+      text-indent: -9999em;
+      background: url("reputacao-sa.png") no-repeat scroll left top;
+      background-size: 100%;
+    }
+  }
+  .social,
+  nav.nav {
+    @include box-sizing;
+    float: left;
+    text-align: right;
+    width: 50%;
+  }
+  .social {
+    font-size: 4em;
+    line-height: 2.75rem;
+    a {
+      margin-left: .15em;
+    }
+  }
+  nav.nav {
+    position: relative;
+    a {
+      color: $white;
+    }
+    &.open-nav {
+      ul {
+        @include transform(translateY(0px));
+        opacity: 1;
+      }
+    }
+    ul {
+      @include transition(all .25s ease-in-out);
+      @include transform(translateY(-600px));
+      position: absolute;
+      /*opacity: 0;*/
+      background-color: $wet-asphalt;
+      right: -.5em;
+      top: 3em;
+      z-index: 2;
+      margin: 0;
+      padding: 0;
+      width: 200px;
+      li {
+        font-weight: 300;
+        margin: 0;
+        padding: 0;
+        display: block;
+      }
+      a {
+        font-size: 1.15em;
+        padding: .25em .75em;
+        display: block;
+      }
+    }
+  }
+  .open-search,
+  .toggle-menu {
+    font-size: 3em;
+    color: $white;
+    font-weight: 900;
+    line-height: 2rem;
+  }
+  .open-search {
+    font-size: 2em;
+    line-height: 1.25em;
+  }
+  .toggle-menu {
+    margin-left: .5em;
+  }
+}
+
+.companies {
+  .more-companies {
+    /*@include box-sizing;
+    display: block;
+    clear: both;
+    padding: 5px;
+    background-color: $belize-hole;
+    color: $clouds;
+    padding: .5em;
+    text-align: center;
+    font-weight: 900;
+    border-radius: 6px;
+    margin: .5em 5px;*/
+    display: none;
+  }
+}
+.company {
+    @include box-sizing;
+    display: block;
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid darken($clouds, 8%);
+    clear: both;
+    padding: 5px;
+  .company-name {
+    max-width: 80%;
+  }
+  .company-name,
+  .complaint-count,
+  .arrow {
+    @include box-sizing;
+    display: inline-block;
+  }
+  .company-name {
+    font-size: 1.25em;
+    line-height: 2rem;
+    color: $midnight-blue;
+  }
+  .arrow {
+    float: right;
+    font-size: 2.5em;
+    line-height: 0;
+    color: darken($clouds, 15%);
+    line-height: 1.75rem;
+  }
+  .complaint-count {
+    float: right;
+    font-size: .875em;
+    color: $asbestos;
+    line-height: 1rem;
+    background-color: $midnight-blue;
+    color: $clouds;
+    padding: .25em .5em;
+    margin: .45em .5em 0 0;
+    border-radius: 4px;
+  }
+}
+
+section {
+  padding-bottom: 3em;
+  h1, h2, h3 {
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    padding-top: 1.8em;
+    text-align: center;
+    margin-bottom: 1.5em;
+  }
+  &.ranking {
+    @extend .background-turquoise;
+    color: $white;
+  }
+  &.statistics {
+    @extend .background-belize-hole;
+    color: $white;
+  }
+  &.time-matrices {
+    @extend .background-concrete;
+  }
+  &.solved-unsolved {
+    @extend .background-midnight-blue;
+    color: $white;
+  }
+  &.top-types {
+    @extend .background-wisteria;
+    color: $white;
+  }
+  &.choropleth-map {
+    @extend .background-white;
+  }
+  &.nao-solucionados {
+    @extend .background-pomegranate;
+    color: $white;
+  }
+  &.solucionados {
+    @extend .background-nephritis;
+    color: $white;
+  }
+  &.share-social {
+    @extend .background-peter-river;
+    color: $white;
+    .social {
+      text-align: center;
+      a {
+        font-size: 4em;
+        color: $white;
+      }
+    }
+  }
+}
+
+footer {
+  text-align: center;
+  font-size: .875em;
+  margin-top: 3em;
+  .button {
+    @include box-sizing;
+    width: 100%;
+    display: block;
+    color: $clouds;
+    background-color: $belize-hole;
+    border-radius: 6px;
+    padding: .5em;
+    margin-bottom: .5em;
+  }
+  .dataviz,
+  .license {
+    margin: 1em auto;
+    display: block;
+  }
+  .dataviz {
+    max-width: 50%;
+  }
+  .license {
+    width: 75px; // @2x
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    li {
+      margin: 0;
+      display: block;
+    }
+  }
+  strong {
+    color: $concrete;
+    text-transform: uppercase;
+  }
+}
+
+.ranking-content {
+  .description {
+    text-transform: lowercase;
+  }
+  p {
+    color: $white;
+  }
+  .big-number {
+    display: block;
+    font-size: 3.5em;
+    color: $white;
+    small {
+      display: block;
+      font-size: .5em;
+      color: darken($white,10%);
+    }
+  }
+  .company-info-box {
+    @include box-sizing;
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    text-align: center;
+    .company-name {
+      font-size: 1.5em;
+    }
+    .description {
+      font-size: 1.25em;
+    }
+  }
+  .ranking {
+    @include box-sizing;
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+    padding: 0 5px 0 0;
+    margin-bottom: 10px;
+    font-size: .875em;
+    text-align: center;
+    &.solved-unsolved-ratio {
+      width: 100%;
+    }
+    &:nth-child(2n+2) {
+      padding: 0 0 0 5px;
+    }
+  }
+  .solved-unsolved-ratio {
+    border-radius: 6px;
+    &.good {
+      background-color: $green-sea;
+    }
+    &.bad {
+      background-color: $pomegranate;
+    }
+  }
+}
+
+.solved-unsolved-matrix {
+  width: 100%;
+  .complaints {
+    @include box-sizing;
+    display: inline-block;
+    height: 2em;
+  }
+  .solved-complaints,
+  .unsolved-complaints {
+    overflow: hidden;
+  }
+  .solved-complaints {
+    background-color: $emerland;
+    .percentage {
+      color: darken($emerland, 20%);
+    }
+  }
+  .unsolved-complaints {
+    background-color: $alizarin;
+    color: darken($alizarin, 20%);
+  }
+  .percentage {
+    display: block;
+    font-weight: 900;
+    text-align: center;
+    font-size: 1.25em;
+  }
+}
+
+.histogram-content {
+  overflow: hidden;
+  .histogram-view {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0 0;
+    td, th {
+      padding: 0;
+    }
+    th {
+      font-size: smaller;
+      color: $asbestos;
+    }
+    .bar-wrapper {
+      vertical-align: bottom;
+      width: 2px;
+      padding: 0;
+    }
+    .bar {
+      display: inline-block;
+      vertical-align: bottom;
+      width: 4px;
+      background-color: $black;
+    }
+  }
+}
+
+
+
+.time-matrices-content {
+  table,
+  th,
+  td {
+    border: 1px solid lighten($concrete, 10%);
+    border-left: 0 none;
+    border-right: 0 none;
+  }
+  th {
+    background-color: lighten($concrete, 2%);
+  }
+  th,
+  td {
+    padding: 5px;
+    text-align: center;
+  }
+  span.point {
+    line-height: 24px;
+    text-shadow: lighten($concrete, 10%) 0 1px 0;
+  }
+  .matrix {
+    width: 100%;
+    .yes,
+    .no {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .yes {
+      color: $nephritis;
+    }
+    .no {
+      color: $pomegranate;
+    }
+    .point {
+      &.size-1 {
+        font-size: .25em;
+      }
+      &.size-2 {
+        font-size: .75em;
+      }
+      &.size-3 {
+        font-size: 1em;
+      }
+      &.size-4 {
+        font-size: 1.25em;
+      }
+      &.size-5 {
+        font-size: 1.5em;
+      }
+      &.size-6 {
+        font-size: 1.75em;
+      }
+      &.size-7 {
+        font-size: 2em;
+      }
+      &.size-8 {
+        font-size: 2.25em;
+      }
+      &.size-9 {
+        font-size: 2.5em;
+      }
+      &.size-10 {
+        font-size: 3em;
+      }
+    }
+    tr {
+      td.nopad {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.top-types-context {
+  margin: 1em 0;
+  a {
+    display: inline-block;
+    margin: 0 .5em .5em 0;
+    padding: .15em .25em;
+    border-radius: 4px;
+    color: $turquoise;
+    text-decoration: none;
+    &:hover {
+      background-color: $turquoise;
+      color: $white;
+    }
+  }
+}
+.top-types-content,
+.solved-content,
+.unsolved-content {
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    display: block;
+    margin: 0 0 1px 0;
+    padding: 0;
+  }
+  p {
+    margin: 0 0 1.25em 0;
+    padding: 0;
+  }
+  .big-number {
+    color: $white;
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 2em;
+    padding: .15em .25em;
+  }
+  .meter {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    height: 50px;
+  }
+}
+
+.top-types-content {
+  p {
+    color: lighten($wisteria, 30%)
+  }
+  .meter {
+    background: $amethyst;
+    border-right: 2px solid lighten($amethyst, 10%);
+  }
+}
+
+
+.unsolved-content {
+  p {
+    color: lighten($pomegranate, 30%)
+  }
+  .meter {
+    background: $alizarin;
+    border-right: 2px solid lighten($alizarin, 10%);
+  }
+}
+
+.solved-content {
+  p {
+    color: lighten($nephritis, 30%)
+  }
+  .meter {
+    background: $emerland;
+    border-right: 2px solid lighten($emerland, 10%);
+  }
+}
+
+.choropleth-map-content {
+  ul {
+    list-style-type: none;
+    display: inline-block;
+  }
+  .statelybrazil {
+    color: $alizarin;
+  }
+  .color-0 {
+    color: $midnight-blue;
+    opacity: 0.2;
+  }
+  .color-1,
+  .color-2,
+  .color-3,
+  .color-4,
+  .color-5 {
+    color: $alizarin;
+  }
+  .color-1 {
+    opacity: .2;
+  }
+  .color-2 {
+    opacity: .4;
+  }
+  .color-3 {
+    opacity: .6;
+  }
+  .color-4 {
+    opacity: .8;
+  }
+  .color-5 {
+    opacity: 1;
+  }
+  h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    .big-number {
+      color: $alizarin;
+      font-size: 1.25em;
+      vertical-align: middle;
+      width: 4em;
+      text-align: right;
+      margin-right: .5em;
+      display: inline-block;
+    }
+  }
+}
+
+@import 'responsive';
+@import 'keyframes';

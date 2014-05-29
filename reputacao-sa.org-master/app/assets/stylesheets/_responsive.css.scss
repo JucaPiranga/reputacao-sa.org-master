@@ -1,0 +1,70 @@
+// RESPONSIVE STUFF
+@media all and (min-width: 1280px){
+  .wrapper {
+    width: 960px;
+    margin: 0 auto;
+  }
+  .statelybrazil {
+    /*background: red; //debug*/
+    font: normal normal 800px/940px "statelybrazil";
+    width: 800px;
+    height: 820px;
+  }
+}
+@media all and (max-width: 1280px) {
+  .wrapper {
+    width: 960px;
+    margin: 0 auto;
+  }
+  .statelybrazil {
+    /*background: red; //debug*/
+    font: normal normal 800px/940px "statelybrazil";
+    width: 800px;
+    height: 820px;
+  }
+}
+@media all and (max-width: 1024px) {
+  .statelybrazil {
+    /*background: red; //debug*/
+    font: normal normal 800px/940px "statelybrazil";
+    width: 800px;
+    height: 820px;
+  }
+}
+@media
+  all and (max-width: 800px),
+  all and (max-width: 400px) {
+  body {
+    width: 100%;
+  }
+  .wrapper {
+    width: auto;
+    margin: 0;
+  }
+  header {
+    .social {
+      font-size: 2.5em;
+      a {
+      }
+    }
+  }
+  header,
+  footer {
+    .wrapper {
+      padding: 0 5px;
+    }
+  }
+  section {
+    .wrapper {
+      @include box-sizing;
+      padding: 0 5px;
+      width: 100%;
+    }
+  }
+  .statelybrazil {
+    /*background: red; //debug*/
+    font: normal normal 400px/420px "statelybrazil";
+    width: 300px;
+    height: 320px;
+  }
+}

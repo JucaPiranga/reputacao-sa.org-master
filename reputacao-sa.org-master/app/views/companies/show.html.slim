@@ -1,0 +1,238 @@
+- content_for :navigation do
+  a.toggle-menu[href='#']
+    | ≡
+  ul
+    - @nav_links.each do |link|
+      li
+        a[href="#{link[:url]}"]
+          = link[:name]
+
+= render 'shared/header'
+section.ranking.first
+  .wrapper
+    .section-info
+      h1#informacoes-gerais
+        | Informações gerais
+    .content.ranking-content
+      .company-info-box
+        p
+          strong
+            | Empresa
+          br
+          span.company-name
+            = @company[:name]
+        p
+          strong
+            | Descrição
+          br
+          span.description
+            = @company[:descricao]
+      br
+      .ranking
+        p
+          | Total de reclamações
+          br
+          small
+            = "(#{@from[0]}-#{@to[0]})"
+          strong.big-number
+            = @complaints.count
+      .ranking
+        p
+          | Reclamações por mês
+          br
+          small
+            | (média)
+          strong.big-number
+            = @complaints.count / 36
+      - solved_unsolved_ratio = ( @solved.count.to_f/ (@solved.count.to_f + @unsolved.count.to_f)).round(2)
+      .ranking.solved-unsolved-ratio[class="#{solved_unsolved_ratio > 0.5 ? 'good' : 'bad'}"]
+        p
+          | Proporção de solucionamentos
+          br
+          small
+            | solucionadas × não-solucionadas
+          strong.big-number
+            = solved_unsolved_ratio
+            small
+              | (<span class='solved'>#{@solved.count}</span>:<span class='unsolved'>#{@unsolved.count}</span>)
+
+section.time-matrices
+  .wrapper
+    .section-info
+      h1#ocorrencias-por-mes
+        | Reclamações por mês
+        br
+        small
+          = "Média entre #{@from[1]}/#{@from[0]} e #{@to[1]}/#{@to[0]}"
+    .content.time-matrices-content
+      table.matrix
+        tr
+          th
+            | Mês
+          th
+            | Média
+          th
+            | Média de reclamações (total)
+        - months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+        - max_complaints_month = @complaints_by_month_year.values.map { |x, y| x.values.map { |y| y["count"] }.inject(:+) }.max.to_i
+        - slice = (max_complaints_month/@number_of_slices.to_f).ceil
+        - months.each_with_index do |month, month_index|
+          tr
+            td
+              = month
+            - complaints = (@complaints_by_month_year[month_index + 1] || {}).values
+            - complaints_count = complaints.sum { |c| c["count"] || 0 }.to_i
+            - css_category = if complaints_count.zero? then 0 else 1 + complaints_count/slice end
+            - css_category = complaints_count/slice if complaints_count == max_complaints_month
+            - css_class = "size-#{css_category.floor}"
+            td
+              span.point[class=css_class]
+                | ●
+            td
+              | #{(complaints_count / complaints.length).to_i rescue 0}
+              small
+                | (#{(complaints_count).to_i})
+
+section.histogram
+  .wrapper
+    .section-info
+      h1#historico-detalhado
+        | Histórico detalhado
+    .content.histogram-content
+      table.histogram-view
+        tr
+          - max_value = @complaints_histogram.map { |year, month, value| value }.max
+          - (@from[0]..@to[0]).each do |year|
+            - 12.times do |month|
+              - value = @complaints_histogram.find { |y, m| year == y && month == m } || [0, 0, 0]
+              - value = value.last
+              td.bar-wrapper
+                .bar[style="height: #{(value*100)/max_value}%"]
+        tr
+          - (@from[0]..@to[0]).each do |year|
+            th[colspan=12]
+              = year
+
+section.solved-unsolved
+  .wrapper
+    .section-info
+      h1#solucionados-nao-solucionados
+        | Reclamações solucionadas × não solucionadas
+        br
+        small
+          | (média por mês)
+    .content.solved-unsolved-content
+      table.solved-unsolved-matrix
+        - months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+        - months.each_with_index do |month, month_index|
+          tr
+            td[width=1]
+              = month
+            - complaints = (@complaints_by_month_year[month_index + 1] || {}).values
+            - fulfilled = complaints.sum { |c| c['fulfilled'] }
+            - count = complaints.sum { |c| c['count'] }
+            - solved = ((fulfilled * 100.0) / count).round rescue 0
+            - unsolved = 100 - solved
+            td[title="#{solved.to_i} solucionados"]
+              - if count.zero?
+                .zero-complaints.complaints[style="width:100%"]
+              - else
+                .solved-complaints.complaints[style="width:#{solved}%"]
+                  span.percentage
+                    | #{solved}%
+                .unsolved-complaints.complaints[style="width:#{unsolved}%"]
+                  span.percentage
+                    | #{unsolved}%
+
+section.top-types
+  .wrapper
+    .section-info
+      h1#reclamacoes-mais-frequentes
+        br
+        | Reclamações mais frequentes
+    .content.top-types-content
+      ul
+        - max = @complaints_by_type.first.last.length
+        - @complaints_by_type.keys[0..9].each do |key|
+          li
+            - count = @complaints_by_type[key].length
+            .meter[style="width: #{ ((count * 100) / max).to_i }%;"]
+              span.big-number
+                = count
+            p
+              small
+                = @complaints_by_type[key].first.DescricaoProblema
+
+section.nao-solucionados
+  .wrapper
+    .section-info
+      h1#nao-solucionados-mais-frequentes
+        br
+        | Reclamações não-solucionadas mais frequentes
+    .content.unsolved-content
+      ul
+        - max = @unsolved_by_type.first.last.length
+        - @unsolved_by_type.keys[0..9].each do |key|
+          li
+            - count = @unsolved_by_type[key].length
+            .meter[style="width: #{ ((count * 100) / max).to_i }%;"]
+              span.big-number
+                = count
+            p
+              small
+                = @unsolved_by_type[key].first.DescricaoProblema
+
+section.solucionados
+  .wrapper
+    .section-info
+      h1#solucionados-mais-frequentes
+        br
+        | Reclamações solucionadas mais frequentes
+    .content.solved-content
+      ul
+        - max = @solved_by_type.first.last.length
+        - @solved_by_type.keys[0..9].each do |key|
+          li
+            - count = @solved_by_type[key].length
+            .meter[style="width: #{ ((count * 100) / max).to_i }%;"]
+              span.big-number
+                = count
+            p
+              small
+                = @solved_by_type[key].first.DescricaoProblema
+
+section.choropleth-map
+  .wrapper
+    .section-info
+      h1#por-estados
+        | Reclamações por estado
+    .content.choropleth-map-content
+      ul.statelybrazil
+        - slice = (@max_complaints_count/@number_of_slices.to_f).ceil
+        - @regions.each_pair do |uf, region|
+          - complaints_count = @states.fetch(uf, []).length
+          - css_category = if complaints_count.zero? then 0 else 1 + complaints_count/slice end
+          - css_category = complaints_count/slice if complaints_count == @max_complaints_count
+          - css_class = "color-#{css_category}"
+          li[data-state-acronym=uf
+            class="statelybrazil-state-#{uf} statelybrazil-state #{css_class}"
+            data-state-name=region.first
+            data-state-complaints=complaints_count]
+            | #{region.last}
+      ul.state-list
+        - sorted_states = @states.map { |uf, values| [uf, values.length] }.sort_by { |uf, values| values * -1 }
+        - sorted_states.each do |uf, count|
+          li
+            h3
+              span.big-number
+                = count
+              = @regions[uf].first
+
+section.share-social.last
+  .wrapper
+    .section-info
+      h1#compartilhar
+        | Compartilhar
+    .content.share-social-content
+      = render 'shared/social'
+= render 'shared/footer'

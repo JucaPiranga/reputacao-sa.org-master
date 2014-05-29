@@ -1,0 +1,16 @@
+.panel.search-panel
+  .search
+    .search-field
+      form[action=companies_search_path]
+        input[type='text' name='name' placeholder='Nome da empresa']
+  p.hint
+    | Digite sua busca e pressione em "retorno"
+header
+  .wrapper
+    h1
+      = link_to '/empresas', class: 'reputacao-sa' do
+        | Reputação S/A
+    nav.nav
+      a.open-search[href='#']
+        | Q
+      = yield :navigation
